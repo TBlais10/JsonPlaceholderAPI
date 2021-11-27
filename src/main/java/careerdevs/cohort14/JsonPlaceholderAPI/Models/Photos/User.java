@@ -1,6 +1,6 @@
 package careerdevs.cohort14.JsonPlaceholderAPI.Models.Photos;
 
-public class PhotoModel {
+public class User {
 
     private Long albumId;
     private Long id;
@@ -8,7 +8,10 @@ public class PhotoModel {
     private String url;
     private String thumbnailUrl;
 
-    public PhotoModel(String title, String url, String thumbnailUrl) {
+    public User() {
+    }
+
+    public User(String title, String url, String thumbnailUrl) {
         this.title = title;
         this.url = url;
         this.thumbnailUrl = thumbnailUrl;

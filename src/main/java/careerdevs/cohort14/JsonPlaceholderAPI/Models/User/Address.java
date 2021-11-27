@@ -1,15 +1,21 @@
 package careerdevs.cohort14.JsonPlaceholderAPI.Models.User;
 
-public class UserAddress {
+public class Address {
     private String street;
     private String suite;
     private String city;
     private String zipcode;
     public Geo geo;
 
+    public Address() {
+    }
+
     public class Geo{
         private String lat;
         private String lng;
+
+        public Geo() {
+        }
 
         public String getLat() {
             return lat;

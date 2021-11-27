@@ -1,10 +1,13 @@
 package careerdevs.cohort14.JsonPlaceholderAPI.Models.User;
 
-public class UserCompany {
+public class Company {
 
     private String name;
     private String catchPhrase;
     private String bs;
+
+    public Company() {
+    }
 
     public String getName() {
         return name;
