@@ -1,7 +1,5 @@
 package careerdevs.cohort14.JsonPlaceholderAPI.Models.User;
 
-import org.apache.tomcat.jni.Address;
-
 public class User {
 
     private Long id;
@@ -25,7 +23,6 @@ public class User {
         this.website = website;
         this.company = company;
     }
-
 
     public Long getId() {
         return id;
