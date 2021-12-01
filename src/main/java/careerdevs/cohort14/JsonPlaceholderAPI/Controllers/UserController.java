@@ -1,10 +1,7 @@
 package careerdevs.cohort14.JsonPlaceholderAPI.Controllers;
 
 import careerdevs.cohort14.JsonPlaceholderAPI.Models.User.User;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
@@ -14,7 +11,7 @@ import java.util.ArrayList;
 @RequestMapping("/api/users")
 public class UserController {
 
-    public String userURL = "https://jsonplaceholder.typicode.com/users";
+    public final String userURL = "https://jsonplaceholder.typicode.com/users";
 
     @GetMapping("/test")
     public String test() {
@@ -28,11 +25,11 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public User[] specificUser(RestTemplate restTemplate, @PathVariable Long id) {
-        String newURL = userURL + "?id=" + id;
+    public User specificUser(RestTemplate restTemplate, @PathVariable Long id) {
+        String newURL = userURL + "/" + id;
 
         try {
-            return restTemplate.getForObject(newURL, User[].class);
+            return restTemplate.getForObject(newURL, User.class);
         } catch (HttpClientErrorException.NotFound exception) {
             System.out.println("User not found! Please try again");
         } catch (Exception e) {
@@ -43,11 +40,11 @@ public class UserController {
     }
 
     @GetMapping("/{first}/{last}")
-    public ArrayList<User[]> getRangeOfUsers(RestTemplate restTemplate, @PathVariable Long first, @PathVariable Long last) {
+    public ArrayList<User> getRangeOfUsers(RestTemplate restTemplate, @PathVariable Long first, @PathVariable Long last) {
         try {
-            ArrayList<User[]> arr = new ArrayList<>();
+            ArrayList<User> arr = new ArrayList<>();
             for (Long i = first; i <= last; i++) {
-                arr.add(restTemplate.getForObject(userURL + "?id=" + i, User[].class));
+                arr.add(restTemplate.getForObject(userURL + "/" + i, User.class));
             }
             return arr;
         } catch (HttpClientErrorException.NotFound exception) {
@@ -56,6 +53,31 @@ public class UserController {
             System.out.println(e.getMessage());
         }
         return null;
+    }
+
+    @PostMapping("/new")
+    public User newUser(RestTemplate restTemplate, @RequestBody User user){
+        return restTemplate.postForObject(userURL, user, User.class);
+    }
+
+    @PutMapping("/{id}")
+    public String putUser(RestTemplate restTemplate, @PathVariable(name="id") String id ,@RequestBody User user){
+
+        try{
+        restTemplate.put(userURL + "/" + id, user);
+        return "Updated user " + id;
+        } catch (Exception e){
+            e.getMessage();
+            System.out.println(e.getMessage());
+            return "error";
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public String deleteUser(RestTemplate restTemplate,@PathVariable Long id){
+        String URL = userURL + "/" + id;
+        restTemplate.delete(URL);
+        return "User " + id + " deleted";
     }
 
 }
